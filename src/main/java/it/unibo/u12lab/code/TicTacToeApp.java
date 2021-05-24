@@ -1,5 +1,7 @@
 package it.unibo.u12lab.code;
 
+import it.unibo.u12lab.code.TicTacToeImpl;
+
 import javax.swing.*;
 import java.awt.*;
 
