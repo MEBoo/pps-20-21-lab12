@@ -23,9 +23,19 @@ object Permutations extends App {
   // println(removeAtPos(List(10,20,30,40),0)) // 20,30,40
   // println(removeAtPos(List(10,20,30,40),3)) // 10,20,30
 
+  // member ([H|T] ,H,T).
+  // member ([H|T] ,E ,[H|T2 ]):- member (T,E,T2).
+  // permutation ([] ,[]) .
+  // permutation (L ,[H|TP ]) :- member (L,H,T), permutation (T,TP).
+
+  def member[A](list:List[A]):Stream[(A,List[A])] = list match {
+    case Nil => Stream()
+    case h :: t => (h , t) #:: ( member(t) map { case (e , t2 ) => (e , h :: t2 ) } )
+  }
+
   def permutations[A](list: List[A]): Stream[List[A]] = list match {
     case Nil => Stream(Nil)
-    case _ => for (i <- list.indices.toStream; e = list(i); r = removeAtPos(list,i); pr <- permutations(r)) yield e :: pr
+    case _ => for ((h,t) <- member(list); pr <- permutations(t)) yield h :: pr
   }
 
   val list = List(10,20,30)
